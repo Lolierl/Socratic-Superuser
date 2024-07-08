@@ -23,8 +23,9 @@ case class FinishManagerMessagePlanner(userName: String, allowed:Boolean, overri
         writeDB(
             s"DELETE FROM ${schemaName}.ManagerTasks WHERE user_name = ?",
             List(SqlParameter("String", userName))
-          )
-          ManagerRequestMessage(userName, allowed).send
+          ).flatMap { _ =>
+            ManagerRequestMessage(userName, allowed).send
+          }
         }
       }
     }

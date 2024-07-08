@@ -18,7 +18,7 @@ case class AuthenManagerMessagePlanner(userName: String, override val planContex
 
     checkTaskExists.flatMap { exists =>
       if (exists) {
-        IO.raiseError(new Exception("already registered"))
+        IO.pure("already registered")
       } else {
           writeDB(s"INSERT INTO ${schemaName}.ManagerTasks (user_name) VALUES (?)",
           List(SqlParameter("String", userName)
